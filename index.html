@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroWisdom - Agricultural Knowledge Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom CSS for enhancements */
+        .gradient-bg {
+            background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+        }
+        .crop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .sidebar-link:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        .dashboard-card:hover {
+            transform: scale(1.02);
+        }
+        .chart-container {
+            height: 300px;
+        }
+        /* Animation for notifications */
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        .notification {
+            animation: slideIn 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Main App Container -->
+    <div id="app" class="min-h-screen flex flex-col">
+        <!-- Navigation Bar -->
+        <header class="gradient-bg text-white shadow-lg">
+            <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-leaf text-2xl"></i>
+                    <h1 class="text-2xl font-bold">AgroWisdom</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="hover:text-green-200 font-medium" onclick="showSection('home')">Home</a>
+                    <a href="#" class="hover:text-green-200 font-medium" onclick="showSection('crops')">Crops</a>
+                    <a href="#" class="hover:text-green-200 font-medium" onclick="showSection('techniques')">Techniques</a>
+                    <a href="#" class="hover:text-green-200 font-medium" onclick="showSection('market')">Market</a>
+                    <a href="#" class="hover:text-green-200 font-medium" onclick="showSection('forum')">Forum</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <button id="loginBtn" class="bg-white text-green-700 px-4 py-2 rounded-lg font-medium hover:bg-green-50 transition">
+                        Login
+                    </button>
+                    <button id="adminBtn" class="hidden bg-yellow-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-600 transition">
+                        Admin Panel
+                    </button>
+                    <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="hidden md:hidden gradient-bg px-4 py-2">
+                <div class="flex flex-col space-y-2">
+                    <a href="#" class="text-white py-2 hover:bg-green-700 px-3 rounded" onclick="showSection('home')">Home</a>
+                    <a href="#" class="text-white py-2 hover:bg-green-700 px-3 rounded" onclick="showSection('crops')">Crops</a>
+                    <a href="#" class="text-white py-2 hover:bg-green-700 px-3 rounded" onclick="showSection('techniques')">Techniques</a>
+                    <a href="#" class="text-white py-2 hover:bg-green-700 px-3 rounded" onclick="showSection('market')">Market</a>
+                    <a href="#" class="text-white py-2 hover:bg-green-700 px-3 rounded" onclick="showSection('forum')">Forum</a>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Sections -->
+        <main class="flex-grow container mx-auto px-4 py-8">
+            <!-- Home Section -->
+            <section id="home" class="section-content">
+                <div class="text-center mb-12">
+                    <h2 class="text-4xl font-bold text-green-800 mb-4">Welcome to AgroWisdom</h2>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Your comprehensive resource for modern agricultural practices, crop management, and sustainable farming techniques.
+                    </p>
+                </div>
+
+                <!-- Hero Section -->
+                <div class="bg-green-50 rounded-xl p-8 mb-12 flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-6 md:mb-0 md:pr-8">
+                        <h3 class="text-3xl font-bold text-green-800 mb-4">Empowering Farmers with Knowledge</h3>
+                        <p class="text-gray-700 mb-6">
+                            Access the latest research, connect with experts, and discover innovative farming solutions to maximize your yield and sustainability.
+                        </p>
+                        <div class="flex space-x-4">
+                            <button class="gradient-bg text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700 transition">
+                                Learn More
+                            </button>
+                            <button class="border-2 border-green-600 text-green-700 px-6 py-3 rounded-lg font-medium hover:bg-green-50 transition">
+                                Watch Tutorials
+                            </button>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Farm field" class="w-full rounded-lg shadow-lg">
+                    </div>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                        <div class="text-green-600 mb-4">
+                            <i class="fas fa-seedling text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-3">Crop Guides</h4>
+                        <p class="text-gray-600">
+                            Detailed information on various crops including planting schedules, soil requirements, and pest management.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                        <div class="text-green-600 mb-4">
+                            <i class="fas fa-tractor text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-3">Modern Techniques</h4>
+                        <p class="text-gray-600">
+                            Learn about precision agriculture, hydroponics, vertical farming and other innovative techniques.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition">
+                        <div class="text-green-600 mb-4">
+                            <i class="fas fa-chart-line text-4xl"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-3">Market Insights</h4>
+                        <p class="text-gray-600">
+                            Stay updated with current market prices, demand trends, and export opportunities for your produce.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Weather Widget -->
+                <div class="bg-white rounded-xl shadow-md p-6 mb-12">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-bold text-gray-800">Weather Forecast</h3>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-green-600 mr-2"></i>
+                            <span class="font-medium">Nairobi, Kenya</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <p class="font-medium">Today</p>
+                            <i class="fas fa-sun text-yellow-500 text-3xl my-2"></i>
+                            <p class="font-bold">28°C</p>
+                            <p class="text-sm text-gray-600">Sunny</p>
+                        </div>
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <p class="font-medium">Tue</p>
+                            <i class="fas fa-cloud-sun text-gray-500 text-3xl my-2"></i>
+                            <p class="font-bold">26°C</p>
+                            <p class="text-sm text-gray-600">Partly Cloudy</p>
+                        </div>
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <p class="font-medium">Wed</p>
+                            <i class="fas fa-cloud-rain text-blue-500 text-3xl my-2"></i>
+                            <p class="font-bold">24°C</p>
+                            <p class="text-sm text-gray-600">Light Rain</p>
+                        </div>
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <p class="font-medium">Thu</p>
+                            <i class="fas fa-cloud text-gray-400 text-3xl my-2"></i>
+                            <p class="font-bold">25°C</p>
+                            <p class="text-sm text-gray-600">Cloudy</p>
+                        </div>
+                        <div class="text-center p-3 bg-green-50 rounded-lg">
+                            <p class="font-medium">Fri</p>
+                            <i class="fas fa-sun text-yellow-500 text-3xl my-2"></i>
+                            <p class="font-bold">27°C</p>
+                            <p class="text-sm text-gray-600">Sunny</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Latest Articles -->
+                <div class="mb-12">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-6">Latest Articles</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                            <img src="https://images.unsplash.com/photo-1559181567-c5190bce60b7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Organic farming" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <span class="text-sm text-green-600 font-medium">Organic Farming</span>
+                                <h4 class="text-xl font-bold text-gray-800 my-2">Transitioning to Organic: A Step-by-Step Guide</h4>
+                                <p class="text-gray-600 mb-4">Learn how to gradually shift your farm to organic practices without compromising yield.</p>
+                                <a href="#" class="text-green-600 font-medium hover:underline">Read More</a>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                            <img src="https://images.unsplash.com/photo-1599420186946-7b6fb4e297f0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                                 alt="Irrigation" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <span class="text-sm text-green-600 font-medium">Water Management</span>
+                                <h4 class="text-xl font-bold text-gray-800 my-2">Efficient Irrigation Techniques for Arid Regions</h4>
+                                <p class="text-gray-600 mb-4">Discover water-saving irrigation methods that can increase efficiency by up to 40%.</p>
+                                <a href="#" class="text-green-600 font-medium hover:underline">Read More</a>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
+                            <img src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Pest control" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <span class="text-sm text-green-600 font-medium">Pest Control</span>
+                                <h4 class="text-xl font-bold text-gray-800 my-2">Integrated Pest Management Strategies</h4>
+                                <p class="text-gray-600 mb-4">Natural and chemical approaches to protect your crops while maintaining ecological balance.</p>
+                                <a href="#" class="text-green-600 font-medium hover:underline">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Crops Section -->
+            <section id="crops" class="section-content hidden">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-green-800">Crop Information</h2>
+                    <div class="relative">
+                        <input type="text" placeholder="Search crops..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="crop-card bg-white p-6 rounded-xl shadow-md transition cursor-pointer">
+                        <div class="text-center">
+                            <i class="fas fa-apple-alt text-5xl text-red-500 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Maize</h3>
+                            <p class="text-gray-600">Zea mays</p>
+                        </div>
+                    </div>
+                    <div class="crop-card bg-white p-6 rounded-xl shadow-md transition cursor-pointer">
+                        <div class="text-center">
+                            <i class="fas fa-wheat text-5xl text-amber-500 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Wheat</h3>
+                            <p class="text-gray-600">Triticum aestivum</p>
+                        </div>
+                    </div>
+                    <div class="crop-card bg-white p-6 rounded-xl shadow-md transition cursor-pointer">
+                        <div class="text-center">
+                            <i class="fas fa-carrot text-5xl text-orange-500 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Rice</h3>
+                            <p class="text-gray-600">Oryza sativa</p>
+                        </div>
+                    </div>
+                    <div class="crop-card bg-white p-6 rounded-xl shadow-md transition cursor-pointer">
+                        <div class="text-center">
+                            <i class="fas fa-pepper-hot text-5xl text-green-600 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-800 mb-2">Beans</h3>
+                            <p class="text-gray-600">Phaseolus vulgaris</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Crop Details -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                    <div class="md:flex">
+                        <div class="md:w-1/3">
+                            <img src="https://images.unsplash.com/photo-1601593768790-1a65782a1792?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                                 alt="Maize field" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-8 md:w-2/3">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="text-2xl font-bold text-gray-800">Maize (Zea mays)</h3>
+                                    <p class="text-green-600 font-medium">Staple Crop</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Cereal</span>
+                                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Annual</span>
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <h4 class="font-bold text-gray-700 mb-2">Optimal Conditions</h4>
+                                    <ul class="space-y-2">
+                                        <li class="flex items-center">
+                                            <i class="fas fa-temperature-low text-green-600 mr-2"></i>
+                                            <span>Temperature: 18-32°C</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-tint text-blue-500 mr-2"></i>
+                                            <span>Rainfall: 500-800mm per cycle</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-mountain text-amber-600 mr-2"></i>
+                                            <span>Altitude: 0-2500m above sea level</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-seedling text-green-700 mr-2"></i>
+                                            <span>Soil: Well-drained loamy soils</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-gray-700 mb-2">Growth Timeline</h4>
+                                    <ul class="space-y-2">
+                                        <li class="flex items-center">
+                                            <i class="fas fa-calendar-day text-purple-500 mr-2"></i>
+                                            <span>Planting to Germination: 5-7 days</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-calendar-week text-blue-500 mr-2"></i>
+                                            <span>Vegetative Stage: 30-40 days</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-calendar-alt text-yellow-500 mr-2"></i>
+                                            <span>Flowering: 50-65 days</span>
+                                        </li>
+                                        <li class="flex items-center">
+                                            <i class="fas fa-calendar-check text-green-500 mr-2"></i>
+                                            <span>Maturity: 90-120 days</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <h4 class="font-bold text-gray-700 mb-2">Common Varieties</h4>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">DH02</span>
+                                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">PH4</span>
+                                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">SC513</span>
+                                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">H614</span>
+                                    <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">KH500</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-4">
+                                <button class="gradient-bg text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition">
+                                    <i class="fas fa-book-open mr-2"></i> Full Guide
+                                </button>
+                                <button class="border border-green-600 text-green-700 px-6 py-2 rounded-lg font-medium hover:bg-green-50 transition">
+                                    <i class="fas fa-video mr-2"></i> Watch Tutorial
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Common Pests and Diseases -->
+                <div class="mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Common Pests and Diseases</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-bug text-red-500 mr-2"></i> Maize Stem Borer
+                            </h4>
+                            <p class="text-gray-600 mb-3">Larvae bore into stems causing wilting and reduced yield.</p>
+                            <div class="flex justify-between">
+                                <span class="text-sm font-medium text-gray-500">Damage: 20-70% yield loss</span>
+                                <a href="#" class="text-sm text-green-600 font-medium hover:underline">Control Methods</a>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-leaf text-green-600 mr-2"></i> Maize Lethal Necrosis
+                            </h4>
+                            <p class="text-gray-600 mb-3">Viral disease causing yellowing, stunting and plant death.</p>
+                            <div class="flex justify-between">
+                                <span class="text-sm font-medium text-gray-500">Spread: Virus, vectors</span>
+                                <a href="#" class="text-sm text-green-600 font-medium hover:underline">Control Methods</a>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-spider text-amber-700 mr-2"></i> Fall Armyworm
+                            </h4>
+                            <p class="text-gray-600 mb-3">Invasive pest that feeds on leaves and reproductive parts.</p>
+                            <div class="flex justify-between">
+                                <span class="text-sm font-medium text-gray-500">Damage: Up to 100% loss</span>
+                                <a href="#" class="text-sm text-green-600 font-medium hover:underline">Control Methods</a>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-md">
+                            <h4 class="font-bold text-lg text-gray-800 mb-3 flex items-center">
+                                <i class="fas fa-fungus text-brown-500 mr-2"></i> Grey Leaf Spot
+                            </h4>
+                            <p class="text-gray-600 mb-3">Fungal disease causing rectangular lesions on leaves.</p>
+                            <div class="flex justify-between">
+                                <span class="text-sm font-medium text-gray-500">Favored by: Humid conditions</span>
+                                <a href="#" class="text-sm text-green-600 font-medium hover:underline">Control Methods</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Techniques Section -->
+            <section id="techniques" class="section-content hidden">
+                <h2 class="text-3xl font-bold text-green-800 mb-8">Farming Techniques</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1471&q=80" 
+                             alt="Crop rotation" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Crop Rotation</h3>
+                            <p class="text-gray-600 mb-4">Rotating different crops in sequential seasons to improve soil health and reduce pest buildup.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-green-600">Soil Health</span>
+                                <button class="text-green-600 font-medium hover:underline">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1560493676-04071c5f467b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" 
+                             alt="Intercropping" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Intercropping</h3>
+                            <p class="text-gray-600 mb-4">Growing two or more crops simultaneously on the same field to maximize land use efficiency.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-green-600">Land Efficiency</span>
+                                <button class="text-green-600 font-medium hover:underline">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1596422846540-8bb68a0d2c51?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Conservation agriculture" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Conservation Agriculture</h3>
+                            <p class="text-gray-600 mb-4">Minimal soil disturbance, permanent soil cover and crop rotations to maintain soil health.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-green-600">Sustainability</span>
+                                <button class="text-green-600 font-medium hover:underline">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Precision farming" class="w-full h-48 object-cover">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-3">Precision Farming</h3>
+                            <p class="text-gray-600 mb-4">Using technology like GPS, sensors and data analytics to optimize field-level management.</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm font-medium text-green-600">Technology</span>
+                                <button class="text-green-600 font-medium hover:underline">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 rounded-xl p-8">
+                    <h3 class="text-2xl font-bold text-green-800 mb-4">Technique Comparison</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                            <thead class="gradient-bg text-white">
+                                <tr>
+                                    <th class="py-3 px-4 text-left">Technique</th>
+                                    <th class="py-3 px-4 text-left">Water Use</th>
+                                    <th class="py-3 px-4 text-left">Labor Needs</th>
+                                    <th class="py-3 px-4 text-left">Yield Potential</th>
+                                    <th class="py-3 px-4 text-left">Sustainability</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr>
+                                    <td class="py-3 px-4">Traditional Farming</td>
+                                    <td class="py-3 px-4">High</td>
+                                    <td class="py-3 px-4">High</td>
+                                    <td class="py-3 px-4">Medium</td>
+                                    <td class="py-3 px-4">Low</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="py-3 px-4">Crop Rotation</td>
+                                    <td class="py-3 px-4">Medium</td>
+                                    <td class="py-3 px-4">Medium</td>
+                                    <td class="py-3 px-4">Medium-High</td>
+                                    <td class="py-3 px-4">High</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4">Intercropping</td>
+                                    <td class="py-3 px-4">Medium</td>
+                                    <td class="py-3 px-4">Medium-High</td>
+                                    <td class="py-3 px-4">High</td>
+                                    <td class="py-3 px-4">High</td>
+                                </tr>
+                                <tr class="bg-gray-50">
+                                    <td class="py-3 px-4">Conservation Ag</td>
+                                    <td class="py-3 px-4">Low</td>
+                                    <td class="py-3 px-4">Low-Medium</td>
+                                    <td class="py-3 px-4">Medium</td>
+                                    <td class="py-3 px-4">Very High</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 px-4">Precision Farming</td>
+                                    <td class="py-3 px-4">Very Low</td>
+                                    <td class="py-3 px-4">Low</td>
+                                    <td class="py-3 px-4">Very High</td>
+                                    <td class="py-3 px-4">High</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Section -->
+            <section id="market" class="section-content hidden">
+                <h2 class="text-3xl font-bold text-green-800 mb-8">Market Prices & Trends</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Current Prices (per kg)</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium">Maize</span>
+                                <span class="font-bold text-green-600">KSh 45.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium">Wheat</span>
+                                <span class="font-bold text-green-600">KSh 60.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium">Rice</span>
+                                <span class="font-bold text-green-600">KSh 120.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium">Beans</span>
+                                <span class="font-bold text-green-600">KSh 150.00</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-medium">Tomatoes</span>
+                                <span class="font-bold text-green-600">KSh 80.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Price Trends</h3>
+                        <div class="chart-container">
+                            <canvas id="priceTrendChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Demand Forecast</h3>
+                        <div class="chart-container">
+                            <canvas id="demandTrendChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+                    <div class="p-6 border-b">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Export Opportunities</h3>
+                        <p class="text-gray-600">Current international market demands for African agricultural products.</p>
+                    </div>
+                    <div class="divide-y divide-gray-200">
+                        <div class="p-4 hover:bg-gray-50 transition cursor-pointer">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Avocados to Europe</h4>
+                                    <p class="text-gray-600 text-sm">Growing demand in Germany, France, Netherlands</p>
+                                </div>
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">High Potential</span>
+                            </div>
+                        </div>
+                        <div class="p-4 hover:bg-gray-50 transition cursor-pointer">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Macadamia Nuts to China</h4>
+                                    <p class="text-gray-600 text-sm">Prices up 15% from last year</p>
+                                </div>
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Moderate</span>
+                            </div>
+                        </div>
+                        <div class="p-4 hover:bg-gray-50 transition cursor-pointer">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Coffee to USA</h4>
+                                    <p class="text-gray-600 text-sm">Specialty coffee market expanding</p>
+                                </div>
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">High Potential</span>
+                            </div>
+                        </div>
+                        <div class="p-4 hover:bg-gray-50 transition cursor-pointer">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h4 class="font-bold text-gray-800">Horticulture to Middle East</h4>
+                                    <p class="text-gray-600 text-sm">Flowers, fruits and vegetables</p>
+                                </div>
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Stable</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 rounded-xl p-6">
+                    <h3 class="text-xl font-bold text-green-800 mb-4">Market News</h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-2">New EU Regulations on Pesticide Residues</h4>
+                            <p class="text-gray-600 text-sm mb-2">Starting January 2024, stricter limits will apply for several pesticides in exported fruits and vegetables.</p>
+                            <span class="text-xs text-gray-500">Posted: 2 days ago</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-2">Drought in Horn of Africa Affects Regional Supply</h4>
+                            <p class="text-gray-600 text-sm mb-2">Maize prices expected to rise 20-30% in coming months due to reduced harvests.</p>
+                            <span class="text-xs text-gray-500">Posted: 1 week ago</span>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-2">New Trade Agreement with UK Benefits Horticulture</h4>
+                            <p class="text-gray-600 text-sm mb-2">Reduced tariffs for cut flowers, avocados and green beans exported to the United Kingdom.</p>
+                            <span class="text-xs text-gray-500">Posted: 2 weeks ago</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Forum Section -->
+            <section id="forum" class="section-content hidden">
+                <h2 class="text-3xl font-bold text-green-800 mb-6">Farmer's Forum</h2>
+                <p class="text-gray-600 mb-8">Connect with other farmers, ask questions, and share your experiences.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="md:col-span-2">
+                        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Start a Discussion</h3>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Topic</label>
+                                <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="What's your question?">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Details</label>
+                                <textarea class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" rows="4" placeholder="Describe your issue or share your experience..."></textarea>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" class="form-checkbox text-green-600">
+                                        <span class="ml-2 text-gray-700">Post anonymously</span>
+                                    </label>
+                                </div>
+                                <button class="gradient-bg text-white px-6 py-2 rounded-lg font-medium hover:bg-green-700 transition">
+                                    Post Discussion
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Recent Discussions</h3>
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition cursor-pointer">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h4 class="text-lg font-bold text-gray-800">Best maize varieties for arid areas?</h4>
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Crops</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Looking for drought-resistant maize varieties that can perform well in Machakos county with less than 400mm rainfall.</p>
+                                <div class="flex justify-between items-center text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-user-circle text-gray-400 mr-1"></i>
+                                        <span>John M.</span>
+                                    </div>
+                                    <div class="flex space-x-4">
+                                        <span><i class="fas fa-comment mr-1"></i> 12 replies</span>
+                                        <span><i class="far fa-clock mr-1"></i> 2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition cursor-pointer">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h4 class="text-lg font-bold text-gray-800">Organic pest control for kale</h4>
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Pests</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Has anyone successfully used neem oil or other organic methods to control aphids on kale? Looking for alternatives to chemical pesticides.</p>
+                                <div class="flex justify-between items-center text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-user-circle text-gray-400 mr-1"></i>
+                                        <span>Mary W.</span>
+                                    </div>
+                                    <div class="flex space-x-4">
+                                        <span><i class="fas fa-comment mr-1"></i> 8 replies</span>
+                                        <span><i class="far fa-clock mr-1"></i> 5 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition cursor-pointer">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h4 class="text-lg font-bold text-gray-800">Drip irrigation system recommendations</h4>
+                                    <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-medium">Irrigation</span>
+                                </div>
+                                <p class="text-gray-600 mb-4">Planning to install drip irrigation on my 2-acre vegetable farm. Looking for advice on best systems for smallholder farmers in terms of cost and durability.</p>
+                                <div class="flex justify-between items-center text-sm text-gray-500">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-user-circle text-gray-400 mr-1"></i>
+                                        <span>Anonymous</span>
+                                    </div>
+                                    <div class="flex space-x-4">
+                                        <span><i class="fas fa-comment mr-1"></i> 15 replies</span>
+                                        <span><i class="far fa-clock mr-1"></i> 1 week ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="bg-white rounded-xl shadow-md p-6 mb-6 sticky top-4">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Popular Topics</h3>
+                            <div class="space-y-3">
+                                <a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition">
+                                    <span class="bg-green-100 text-green-800 w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-seedling"></i>
+                                    </span>
+                                    <span class="font-medium">Crop Selection</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition">
+                                    <span class="bg-blue-100 text-blue-800 w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-bug"></i>
+                                    </span>
+                                    <span class="font-medium">Pest Control</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition">
+                                    <span class="bg-purple-100 text-purple-800 w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-tint"></i>
+                                    </span>
+                                    <span class="font-medium">Irrigation</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition">
+                                    <span class="bg-yellow-100 text-yellow-800 w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-dollar-sign"></i>
+                                    </span>
+                                    <span class="font-medium">Market Access</span>
+                                </a>
+                                <a href="#" class="flex items-center p-2 hover:bg-gray-50 rounded-lg transition">
+                                    <span class="bg-red-100 text-red-800 w-8 h-8 rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-cloud-sun"></i>
+                                    </span>
+                                    <span class="font-medium">Climate Adaptation</span>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl shadow-md p-6">
+                            <h3 class="text-xl font-bold text-gray-800 mb-4">Top Contributors</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-800 mr-3">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium">Dr. Kamau</h4>
+                                        <p class="text-xs text-gray-500">Agricultural Expert</p>
+                                    </div>
+                                    <div class="ml-auto bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
+                                        142 posts
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-800 mr-3">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium">Njeri Farm</h4>
+                                        <p class="text-xs text-gray-500">Commercial Farmer</p>
+                                    </div>
+                                    <div class="ml-auto bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                                        98 posts
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-800 mr-3">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-medium">AgroDealer Ltd</h4>
+                                        <p class="text-xs text-gray-500">Inputs Supplier</p>
+                                    </div>
+                                    <div class="ml-auto bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-medium">
+                                        76 posts
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Admin Panel Section -->
+            <section id="admin-panel" class="section-content hidden">
+                <div class="flex flex-col md:flex-row min-h-screen">
+                    <!-- Sidebar -->
+                    <div class="bg-green-800 text-white w-full md:w-64 flex-shrink-0">
+                        <div class="p-4 border-b border-green-700">
+                            <h2 class="text-xl font-bold flex items-center">
+                                <i class="fas fa-user-shield mr-2"></i> Admin Panel
+                            </h2>
+                        </div>
+                        <nav class="p-2">
+                            <a href="#" class="sidebar-link flex items-center p-3 rounded-lg mb-1" onclick="showAdminSection('dashboard')">
+                                <i class="fas fa-tachometer-alt mr-3"></i> Dashboard
+                            </a>
+                            <a href="#" class="sidebar-link flex items-center p-3 rounded-lg mb-1" onclick="showAdminSection('content')">
+                                <i class="fas fa-file-alt mr-3"></i> Content Management
+                            </a>
+                            <a href="#" class="sidebar-link flex items-center p-3 rounded-lg mb-1" onclick="showAdminSection('users')">
+                                <i class="fas fa-users mr-3"></i> User Management
+                            </a>
+                            <a href="#" class="sidebar-link flex items-center p-3 rounded-lg mb-1" onclick="showAdminSection('market-data')">
+                                <i class="fas fa-chart-line mr-3"></i> Market Data
+                            </a>
+                            <a href="#" class="sidebar-link flex items-center p-3 rounded-lg mb-1" onclick="showAdminSection('forum-mod')">
+                                <i class="fas fa-comments mr-3"></i> Forum Moderation
+                            </a>
+                            <a href="#" class="sidebar-link flex items-center p-3 rounded-lg mb-1" onclick="showAdminSection('settings')">
+                                <i class="fas fa-cog mr-3"></i> Settings
+                            </a>
+                        </nav>
+                    </div>
+                    
+                    <!-- Main Admin Content -->
+                    <div class="flex-grow bg-gray-100 p-6">
+                        <!-- Admin Dashboard -->
+                        <div id="admin-dashboard" class="admin-section-content">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-2xl font-bold text-gray-800">Admin Dashboard</h2>
+                                <div class="flex items-center space-x-4">
+                                    <div class="relative">
+                                        <i class="fas fa-bell text-gray-500 text-xl cursor-pointer" onclick="toggleNotifications()"></i>
+                                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center mr-2">
+                                            <i class="fas fa-user"></i>
+                                        </div>
+                                        <span class="font-medium">Admin User</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Notifications Dropdown -->
+                            <div id="notifications-dropdown" class="hidden absolute right-6 mt-2 w-72 bg-white rounded-lg shadow-xl z-10 border border-gray-200">
+                                <div class="p-3 border-b">
+                                    <h4 class="font-bold text-gray-800">Notifications</h4>
+                                </div>
+                                <div class="divide-y divide-gray-200 max-h-80 overflow-y-auto">
+                                    <div class="p-3 notification hover:bg-gray-50 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="bg-blue-100 text-blue-800 p-2 rounded-full mr-3">
+                                                <i class="fas fa-user-plus text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium">5 new users registered today</p>
+                                                <p class="text-xs text-gray-500">2 hours ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 notification hover:bg-gray-50 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="bg-green-100 text-green-800 p-2 rounded-full mr-3">
+                                                <i class="fas fa-file-alt text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium">New article submission for review</p>
+                                                <p class="text-xs text-gray-500">5 hours ago</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-3 notification hover:bg-gray-50 cursor-pointer">
+                                        <div class="flex items-start">
+                                            <div class="bg-red-100 text-red-800 p-2 rounded-full mr-3">
+                                                <i class="fas fa-exclamation-triangle text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-medium">3 reported forum posts</p>
+                                                <p class="text-xs text-gray-500">Yesterday</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-3 border-t text-center">
+                                    <a href="#" class="text-sm text-blue-600 font-medium">View All Notifications</a>
+                                </div>
+                            </div>
+                            
+                            <!-- Stats Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                                <div class="dashboard-card bg-white p-6 rounded-xl shadow-sm border-l-4 border-blue-500">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Total Users</p>
+                                            <h3 class="text-2xl font-bold text-gray-800">1,248</h3>
+                                        </div>
+                                        <div class="bg-blue-100 text-blue-800 p-3 rounded-full">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-green-600 mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i> 12% from last month
+                                    </p>
+                                </div>
+                                <div class="dashboard-card bg-white p-6 rounded-xl shadow-sm border-l-4 border-green-500">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Articles</p>
+                                            <h3 class="text-2xl font-bold text-gray-800">187</h3>
+                                        </div>
+                                        <div class="bg-green-100 text-green-800 p-3 rounded-full">
+                                            <i class="fas fa-file-alt"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-green-600 mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i> 5 new this week
+                                    </p>
+                                </div>
+                                <div class="dashboard-card bg-white p-6 rounded-xl shadow-sm border-l-4 border-yellow-500">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Forum Posts</p>
+                                            <h3 class="text-2xl font-bold text-gray-800">642</h3>
+                                        </div>
+                                        <div class="bg-yellow-100 text-yellow-800 p-3 rounded-full">
+                                            <i class="fas fa-comments"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-red-600 mt-2">
+                                        <i class="fas fa-arrow-down mr-1"></i> 3% from last week
+                                    </p>
+                                </div>
+                                <div class="dashboard-card bg-white p-6 rounded-xl shadow-sm border-l-4 border-purple-500">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <p class="text-sm text-gray-500">Active Now</p>
+                                            <h3 class="text-2xl font-bold text-gray-800">84</h3>
+                                        </div>
+                                        <div class="bg-purple-100 text-purple-800 p-3 rounded-full">
+                                            <i class="fas fa-user-clock"></i>
+                                        </div>
+                                    </div>
+                                    <p class="text-sm text-green-600 mt-2">
+                                        <i class="fas fa-arrow-up mr-1"></i> 15% from yesterday
+                                    </p>
+                                </div>
+                            </div>
+                            
+                            <!-- Recent Activity -->
+                            <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+                                <div class="flex justify-between items-center mb-6">
+                                    <h3 class="text-xl font-bold text-gray-800">Recent Activity</h3>
+                                    <a href="#" class="text-sm text-blue-600 font-medium">View All</a>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex items-start">
+                                        <div class="bg-green-100 text-green-800 p-2 rounded-full mr-4">
+                                            <i class="fas fa-file-upload"></i>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <p class="font-medium">New article submitted</p>
+                                            <p class="text-sm text-gray-600">"Organic Pest Control Methods" by Dr. Kamau</p>
+                                            <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                        </div>
+                                        <button class="text-sm bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Review</button>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-blue-100 text-blue-800 p-2 rounded-full mr-4">
+                                            <i class="fas fa-user-plus"></i>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <p class="font-medium">New user registered</p>
+                                            <p class="text-sm text-gray-600">James Mwangi from Nakuru County</p>
+                                            <p class="text-xs text-gray-500 mt-1">5 hours ago</p>
+                                        </div>
+                                        <button class="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">View</button>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-red-100 text-red-800 p-2 rounded-full mr-4">
+                                            <i class="fas fa-flag"></i>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <p class="font-medium">Forum post reported</p>
+                                            <p class="text-sm text-gray-600">Post ID #4582 in "Pest Control" section</p>
+                                            <p class="text-xs text-gray-500 mt-1">Yesterday</p>
+                                        </div>
+                                        <button class="text-sm bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Review</button>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <div class="bg-purple-100 text-purple-800 p-2 rounded-full mr-4">
+                                            <i class="fas fa-chart-line"></i>
+                                        </div>
+                                        <div class="flex-grow">
+                                            <p class="font-medium">Market data updated</p>
+                                            <p class="text-sm text-gray-600">New maize prices from Nairobi market</p>
+                                            <p class="text-xs text-gray-500 mt-1">Yesterday</p>
+                                        </div>
+                                        <button class="text-sm bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700">View</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Quick Actions -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div class="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
+                                    <div class="space-y-3">
+                                        <button class="w-full flex items-center p-3 bg-blue-50 text-blue-800 rounded-lg hover:bg-blue-100 transition">
+                                            <i class="fas fa-plus-circle mr-3"></i> Add New Article
+                                        </button>
+                                        <button class="w-full flex items-center p-3 bg-green-50 text-green-800 rounded-lg hover:bg-green-100 transition">
+                                            <i class="fas fa-bullhorn mr-3"></i> Create Announcement
+                                        </button>
+                                        <button class="w-full flex items-center p-3 bg-purple-50 text-purple-800 rounded-lg hover:bg-purple-100 transition">
+                                            <i class="fas fa-upload mr-3"></i> Update Market Data
+                                        </button>
+                                        <button class="w-full flex items-center p-3 bg-yellow-50 text-yellow-800 rounded-lg hover:bg-yellow-100 transition">
+                                            <i class="fas fa-users-cog mr-3"></i> Manage Users
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- System Status -->
+                                <div class="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 class="text-lg font-bold text-gray-800 mb-4">System Status</h3>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-gray-700">Storage</span>
+                                                <span class="text-sm font-medium text-gray-700">65%</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" style="width: 65%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-gray-700">Memory</span>
+                                                <span class="text-sm font-medium text-gray-700">42%</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-green-600 h-2.5 rounded-full" style="width: 42%"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="flex justify-between mb-1">
+                                                <span class="text-sm font-medium text-gray-700">CPU</span>
+                                                <span class="text-sm font-medium text-gray-700">28%</span>
+                                            </div>
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-purple-600 h-2.5 rounded-full" style="width: 28%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-6">
+                                        <div class="flex items-center mb-2">
+                                            <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                                            <span class="text-sm">System: Operational</span>
+                                        </div>
+                                        <div class="flex items-center mb-2">
+                                            <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                                            <span class="text-sm">Database: Connected</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                                            <span class="text-sm">Last Backup: Today 02:00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Recent Users -->
+                                <div class="bg-white rounded-xl shadow-sm p-6">
+                                    <h3 class="text-lg font-bold text-gray-800 mb-4">Recent Users</h3>
+                                    <div class="space-y-4">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center mr-3">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Sarah K.</p>
+                                                <p class="text-xs text-gray-500">Registered: 2 hours ago</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-green-100 text-green-800 flex items-center justify-center mr-3">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Peter M.</p>
+                                                <p class="text-xs text-gray-500">Farmer, Nakuru</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center mr-3">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">AgriTech Ltd</p>
+                                                <p class="text-xs text-gray-500">Commercial Farm</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-800 flex items-center justify-center mr-3">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-medium">Dr. Wambua</p>
+                                                <p class="text-xs text-gray-500">Agricultural Expert</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="#" class="inline-block mt-4 text-sm text-blue-600 font-medium hover:underline">View All Users</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Admin Content Management -->
+                        <div id="admin-content" class="admin-section-content hidden">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-2xl font-bold text-gray-800">Content Management</h2>
+                                <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 flex items-center">
+                                    <i class="fas fa-plus mr-2"></i> Add New Content
+                                </button>
+                            </div>
+                            
+                            <div class="bg-white rounded-xl shadow-sm overflow-hidden mb-8">
+                                <div class="p-4 border-b flex justify-between items-center">
+                                    <div class="flex items-center space-x-4">
+                                        <button class="px-4 py-2 bg-blue-50 text-blue-800 rounded-lg font-medium">Articles</button>
+                                        <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium">Crop Guides</button>
+                                        <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium">Videos</button>
+                                    </div>
+                                    <div class="relative">
+                                        <input type="text" placeholder="Search content..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                                    </div>
+                                </div>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Author</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200">
+                                            <tr>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <div class="font-medium text-gray-900">Organic Pest Control Methods</div>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Techniques</span>
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    Dr. Kamau
+                                                </td>
+                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Published
+</html>
